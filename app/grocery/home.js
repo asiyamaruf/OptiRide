@@ -1,5 +1,8 @@
 import { Link } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { BASE_URL } from "../config/api";
+
+fetch(`${BASE_URL}/request-delivery`)
 
 export default function GroceryHome() {
   return (

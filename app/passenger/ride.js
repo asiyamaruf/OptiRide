@@ -20,7 +20,7 @@ export default function Ride() {
   try {
     console.log("📡 Sending request...");
 
-    const response = await fetch("http://127.0.0.1:8000/request-ride", {
+    const response = await fetch(`${BASE_URL}/request-ride`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
