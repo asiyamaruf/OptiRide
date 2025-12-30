@@ -144,3 +144,4 @@ After setup, test the connection by:
 3. Check Supabase Auth dashboard to verify user creation
 4. Check the database tables to verify profile creation
 
+

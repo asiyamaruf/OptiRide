@@ -10,26 +10,30 @@
     "lint": "eslint . --ext ts,tsx --max-warnings 0"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.21.0",
+    "@react-native-async-storage/async-storage": "~1.23.1",
     "@supabase/supabase-js": "^2.47.4",
-    "expo": "~51.0.10",
+    "expo": "~54.0.0",
     "expo-constants": "~16.0.2",
     "expo-router": "^3.5.16",
     "react": "18.2.0",
-    "react-native": "0.75.4",
-    "react-native-gesture-handler": "~2.16.2",
-    "react-native-maps": "1.14.0",
-    "react-native-safe-area-context": "4.11.2",
-    "react-native-screens": "3.31.1",
+    "react-native": "0.74.5",
+    "react-native-gesture-handler": "~2.20.0",
+    "react-native-maps": "1.15.6",
+    "react-native-safe-area-context": "4.12.0",
+    "react-native-screens": "~3.34.0",
     "react-native-uuid": "^2.0.2",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@types/react": "~18.2.45",
-    "@types/react-native": "~0.75.2",
+    "@types/react": "^18.3.27",
     "babel-plugin-module-resolver": "^5.0.2",
-    "babel-preset-expo": "^51.0.0",
-    "typescript": "^5.4.5"
+    "babel-preset-expo": "~54.0.0",
+    "typescript": "^5.3.3"
+  },
+  "expo": {
+    "install": {
+      "exclude": ["@types/react"]
+    }
   },
   "private": true
 }
