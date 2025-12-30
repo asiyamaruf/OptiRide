@@ -1,50 +1,136 @@
-# Welcome to your Expo app 👋
+# OptiRide
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A production-ready Expo Router application for ride-sharing and grocery delivery, built with Supabase and React Native Maps.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Three User Roles**: Passenger, Grocery Customer, Driver
+- **Supabase Backend**: Authentication and PostgreSQL database
+- **Maps Integration**: React Native Maps for visualization
+- **Local Route Optimization**: Haversine distance calculation and greedy routing
+- **Real-time Updates**: Zustand state management
 
-   ```bash
-   npm install
-   ```
+## Tech Stack
 
-2. Start the app
+- React Native with Expo
+- Expo Router (file-based routing)
+- TypeScript
+- Supabase (Auth + Postgres)
+- Zustand (state management)
+- react-native-maps
 
-   ```bash
-   npx expo start
-   ```
+## Setup
 
-In the output, you'll find options to open the app in a
+### 1. Prerequisites
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Node.js (v18+)
+- Expo CLI: `npm install -g expo-cli`
+- Supabase account and project
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### 2. Install Dependencies
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 3. Configure Supabase
 
-## Learn more
+1. Create a `.env` file in the root directory (copy from `.env.example`)
+2. Get your Supabase credentials from [Supabase Dashboard](https://app.supabase.com/project/_/settings/api):
+   - Project URL
+   - Anon (public) key
 
-To learn more about developing your project with Expo, look at the following resources:
+3. Update `.env`:
+```env
+EXPO_PUBLIC_SUPABASE_URL=your_project_url
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Alternatively, you can set these in `app.json` under `expo.extra`:
+```json
+{
+  "expo": {
+    "extra": {
+      "supabaseUrl": "your_project_url",
+      "supabaseAnonKey": "your_anon_key"
+    }
+  }
+}
+```
 
-## Join the community
+### 4. Database Setup
 
-Join our community of developers creating universal apps.
+Create the following tables in your Supabase PostgreSQL database:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- `users` (id UUID PK, name TEXT, phone TEXT, role TEXT)
+- `drivers` (id UUID PK, name TEXT, is_available BOOLEAN, lat NUMERIC, lng NUMERIC)
+- `rides` (id UUID PK, user_id UUID, pickup_lat NUMERIC, pickup_lng NUMERIC, drop_lat NUMERIC, drop_lng NUMERIC, status TEXT, driver_id UUID)
+- `orders` (id UUID PK, user_id UUID, items JSONB, address TEXT, lat NUMERIC, lng NUMERIC, status TEXT, driver_id UUID)
+- `tasks` (id UUID PK, driver_id UUID, type TEXT, ref_id UUID, status TEXT, sequence INTEGER)
+
+See `lib/policies.md` for Row Level Security (RLS) policies.
+
+### 5. Run the App
+
+```bash
+# Start Expo development server
+npm start
+
+# Run on iOS
+npm run ios
+
+# Run on Android
+npm run android
+
+# Run on Web
+npm run web
+```
+
+## Project Structure
+
+```
+app/
+├── index.tsx              # Login screen
+├── signup.tsx             # Signup screen
+├── home.tsx               # Role selection
+├── passenger/             # Passenger flow
+├── grocery/               # Grocery customer flow
+└── driver/                # Driver flow
+
+lib/
+├── supabase.ts            # Supabase client configuration
+└── policies.md            # Database RLS policies
+
+services/                  # Business logic services
+store/                     # Zustand state management
+utils/                     # Utility functions (distance, time, uuid)
+```
+
+## Key Features
+
+### Authentication
+- Email/password authentication via Supabase Auth
+- Role-based access (passenger, grocery, driver)
+- Session persistence
+
+### Passenger Flow
+- Map-based pickup/drop selection
+- Local distance calculation (Haversine)
+- Nearest driver assignment
+- Route visualization
+
+### Grocery Flow
+- Product catalog
+- Cart management
+- Delivery address selection with map pin
+- Order placement and driver assignment
+
+### Driver Flow
+- Task list view
+- Map-based task visualization
+- Task status updates (ASSIGNED → IN_PROGRESS → COMPLETED)
+- Route optimization for multiple stops
+
+## License
+
+Private project

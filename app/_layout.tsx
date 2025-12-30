@@ -1,27 +1,42 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import 'react-native-gesture-handler';
 import { Stack } from 'expo-router';
+import { useEffect } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  initialRouteName: 'index',
-};
+import { useAuthStore } from '../store/auth.store';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const bootstrap = useAuthStore((s) => s.bootstrap);
+
+  useEffect(() => {
+    bootstrap();
+  }, [bootstrap]);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="signup" options={{ headerShown: false }} />
-        <Stack.Screen name="home" options={{ headerShown: false }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#f7f9fc' }}>
+      <Stack
+        initialRouteName="index"
+        screenOptions={{
+          headerStyle: { backgroundColor: '#4A90E2' },
+          headerTintColor: '#fff',
+          headerTitleStyle: { fontWeight: '700' },
+          contentStyle: { backgroundColor: '#f7f9fc' }
+        }}
+      >
+        <Stack.Screen name="index" options={{ title: 'Login' }} />
+        <Stack.Screen name="signup" options={{ title: 'Create Account' }} />
+        <Stack.Screen name="home" options={{ title: 'Choose Experience' }} />
+        <Stack.Screen name="passenger/home" options={{ title: 'Passenger' }} />
+        <Stack.Screen name="passenger/ride" options={{ title: 'Book Ride' }} />
+        <Stack.Screen name="passenger/success" options={{ title: 'Ride Confirmed' }} />
+        <Stack.Screen name="grocery/home" options={{ title: 'Groceries' }} />
+        <Stack.Screen name="grocery/products" options={{ title: 'Products' }} />
+        <Stack.Screen name="grocery/address" options={{ title: 'Delivery Address' }} />
+        <Stack.Screen name="driver/login" options={{ title: 'Driver Login' }} />
+        <Stack.Screen name="driver/tasks" options={{ title: 'Driver Tasks' }} />
+        <Stack.Screen name="driver/details" options={{ title: 'Task Details' }} />
       </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+      <StatusBar style="light" />
+    </GestureHandlerRootView>
   );
 }
