@@ -16,12 +16,14 @@
     "expo-constants": "~16.0.2",
     "expo-router": "^3.5.16",
     "react": "18.2.0",
+    "react-dom": "^18.2.0",
     "react-native": "0.74.5",
     "react-native-gesture-handler": "~2.20.0",
     "react-native-maps": "1.15.6",
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~3.34.0",
     "react-native-uuid": "^2.0.2",
+    "react-native-web": "^0.19.13",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
@@ -32,7 +34,9 @@
   },
   "expo": {
     "install": {
-      "exclude": ["@types/react"]
+      "exclude": [
+        "@types/react"
+      ]
     }
   },
   "private": true
